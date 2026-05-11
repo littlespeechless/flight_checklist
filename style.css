@@ -1,0 +1,681 @@
+/* ─── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:         #0f2d5e;
+  --navy-light:   #1a4b8c;
+  --blue:         #2563eb;
+  --blue-light:   #dbeafe;
+  --green:        #16a34a;
+  --green-light:  #dcfce7;
+  --amber:        #d97706;
+  --bg:           #f1f5f9;
+  --surface:      #ffffff;
+  --text:         #0f172a;
+  --text-muted:   #64748b;
+  --border:       #e2e8f0;
+  --shadow-sm:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow:       0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --radius:       12px;
+  --radius-sm:    8px;
+  --font:         -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+/* ─── Views ────────────────────────────────────────────────────────────────── */
+.view { min-height: 100dvh; display: flex; flex-direction: column; }
+.view.hidden { display: none; }
+
+/* ─── App Header ────────────────────────────────────────────────────────────── */
+.app-header {
+  background: var(--navy);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.header-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Home header */
+.home-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 20px 0 18px;
+}
+
+.logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.logo-tagline {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,.6);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-left: 42px;
+}
+
+/* Checklist header */
+.checklist-header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0 10px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.icon-btn:active { background: rgba(255,255,255,.22); }
+.icon-btn svg { width: 20px; height: 20px; }
+
+.header-title-group { flex: 1; min-width: 0; }
+
+.checklist-aircraft-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checklist-progress-text {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,.65);
+  margin-top: 2px;
+}
+
+.reset-btn {
+  border: 1px solid rgba(255,255,255,.3);
+  background: transparent;
+  color: rgba(255,255,255,.85);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.reset-btn:active { background: rgba(255,255,255,.15); }
+
+/* Progress bar */
+.progress-bar-wrap {
+  padding: 0 0 14px;
+}
+
+.progress-bar {
+  height: 5px;
+  background: rgba(255,255,255,.2);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #60a5fa, #34d399);
+  border-radius: 99px;
+  transition: width .4s ease;
+  width: 0%;
+}
+
+/* ─── Home View ─────────────────────────────────────────────────────────────── */
+.home-main {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px 16px 40px;
+}
+
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.aircraft-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.aircraft-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 2px solid transparent;
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.aircraft-card:active {
+  transform: scale(0.985);
+  border-color: var(--blue);
+  box-shadow: var(--shadow);
+}
+
+.aircraft-card-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.aircraft-card-info { flex: 1; min-width: 0; }
+
+.aircraft-card-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.aircraft-card-reg {
+  font-size: 0.82rem;
+  color: var(--blue);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.aircraft-card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.aircraft-card-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.aircraft-phase-count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+
+.aircraft-card-arrow {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+/* ─── Checklist View ─────────────────────────────────────────────────────────── */
+.checklist-main {
+  flex: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 16px 16px 40px;
+}
+
+.phases-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ─── Phase Card ─────────────────────────────────────────────────────────────── */
+.phase-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color .2s;
+}
+
+.phase-card.complete {
+  border-color: var(--green);
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .12s;
+}
+.phase-header:active { background: var(--bg); }
+
+.phase-icon { font-size: 1.35rem; flex-shrink: 0; line-height: 1; }
+
+.phase-name {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.phase-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: var(--bg);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: background .2s, color .2s;
+}
+
+.phase-badge.complete {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.phase-badge.in-progress {
+  background: var(--blue-light);
+  color: var(--blue);
+}
+
+.phase-chevron {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform .25s ease;
+  line-height: 1;
+}
+
+.phase-card.open .phase-chevron {
+  transform: rotate(90deg);
+}
+
+/* Phase Content (accordion) */
+.phase-content { display: none; }
+.phase-card.open .phase-content { display: block; }
+
+.phase-content-inner {
+  border-top: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+/* ─── Category Headers ────────────────────────────────────────────────────── */
+.item-category-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px 4px;
+}
+
+/* ─── Checklist Items ────────────────────────────────────────────────────── */
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item:active { background: var(--bg); }
+
+/* Hide native checkbox */
+.checklist-item input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Custom checkbox */
+.custom-checkbox {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 7px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  transition: border-color .15s, background .15s;
+}
+
+.checklist-item.checked .custom-checkbox {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.check-icon {
+  display: none;
+  width: 15px;
+  height: 15px;
+  color: #fff;
+}
+
+.checklist-item.checked .check-icon { display: block; }
+
+/* Item text area */
+.item-body { flex: 1; min-width: 0; }
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.item-text {
+  font-size: 0.92rem;
+  line-height: 1.4;
+  transition: color .15s;
+}
+
+.item-action {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--navy-light);
+  white-space: nowrap;
+  transition: color .15s;
+}
+
+.item-note {
+  font-size: 0.77rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* Checked state styles */
+.checklist-item.checked .item-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.checklist-item.checked .item-action {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.checklist-item.checked .item-note {
+  opacity: 0.6;
+}
+
+/* ─── Complete Phase Banner ──────────────────────────────────────────────── */
+.phase-complete-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 0.88rem;
+  font-weight: 700;
+  border-top: 1px solid #bbf7d0;
+}
+
+/* ─── Confirm Modal ──────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0 env(safe-area-inset-bottom, 0);
+}
+
+.modal-overlay.hidden { display: none; }
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px 24px calc(24px + env(safe-area-inset-bottom, 0));
+  box-shadow: 0 -4px 24px rgba(0,0,0,.15);
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.modal-body {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity .15s;
+}
+.btn:active { opacity: 0.8; }
+
+.btn-secondary {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #fff;
+}
+
+/* ─── Responsive / Tablet ─────────────────────────────────────────────────── */
+@media (min-width: 540px) {
+  .phase-name { font-size: 1.05rem; }
+  .checklist-item { padding: 13px 20px; }
+  .item-text { font-size: 0.95rem; }
+  .phase-header { padding: 18px 20px; }
+  .item-category-header { padding: 14px 20px 4px; }
+  .phase-complete-banner { padding: 14px 20px; }
+}
+
+@media (min-width: 680px) {
+  .home-main, .checklist-main { padding-top: 28px; }
+  .modal { border-radius: var(--radius); margin: auto; }
+  .modal-overlay { align-items: center; }
+}
+
+/* ─── Safe-area padding (iPhone notch / home indicator) ──────────────────── */
+.app-header { padding-top: env(safe-area-inset-top, 0); }
+
+/* ─── Update check button ─────────────────────────────────────────────────── */
+.update-check-btn { margin-left: auto; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.update-check-btn.spinning svg { animation: spin .8s linear infinite; }
+
+/* ─── Update available banner ─────────────────────────────────────────────── */
+.update-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  background: var(--navy-light);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0));
+  box-shadow: 0 -2px 12px rgba(0,0,0,.25);
+}
+.update-banner.hidden { display: none; }
+
+.update-banner-text { flex: 1; font-size: 0.9rem; font-weight: 600; }
+
+.update-banner-reload {
+  background: #fff;
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.update-banner-reload:active { opacity: 0.85; }
+
+.update-banner-dismiss {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.7);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Item Groups (expandable sub-items, e.g. AROW) ─────────────────────── */
+.item-group {
+  border-bottom: 1px solid var(--border);
+}
+.item-group:last-child { border-bottom: none; }
+
+.item-group-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .1s;
+}
+.item-group-header:active { background: var(--bg); }
+
+.group-status {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 7px;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  flex-shrink: 0;
+  transition: border-color .15s, background .15s, color .15s;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.group-status.partial {
+  border-color: var(--blue);
+  background: var(--blue-light);
+  color: var(--blue);
+}
+
+.group-status.complete {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fff;
+}
+
+.group-chevron {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform .25s ease;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.item-group.open .group-chevron { transform: rotate(90deg); }
+
+.subitems-list { display: none; }
+.item-group.open .subitems-list { display: block; }
+
+.checklist-item.subitem {
+  background: var(--bg);
+  padding-left: 28px;
+}
+
+@media (min-width: 540px) {
+  .item-group-header { padding: 13px 20px; }
+  .checklist-item.subitem { padding-left: 32px; }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "FlightCheck — Cessna 172P",
+  "short_name": "FlightCheck",
+  "description": "Cessna 172P flight checklist for student pilots",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f2d5e",
+  "theme_color": "#0f2d5e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
