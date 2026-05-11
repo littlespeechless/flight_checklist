@@ -1,4 +1,4 @@
-const CACHE_NAME = 'flightcheck-v1';
+const CACHE_NAME = 'flightcheck-v2';
 const URLS_TO_CACHE = [
   './index.html',
   './style.css',
@@ -25,6 +25,17 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // iOS WKWebView (home screen PWA) rejects service worker responses that are
+  // redirects. Cloudflare Pages can issue a redirect on the initial navigation
+  // (e.g. / → /index.html). Fix: for any page navigation, serve index.html
+  // directly from cache so no redirect ever reaches the browser.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      caches.match('./index.html').then((cached) => cached || fetch(event.request))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => cached || fetch(event.request))
   );
