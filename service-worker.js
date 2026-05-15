@@ -1,10 +1,11 @@
-const CACHE_NAME = 'flightcheck-v4';
+const CACHE_NAME = 'flightcheck-v5';
 const URLS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './app.js',
   './data/cessna172p.js',
+  './data/cessna172p_n227an.js',
   './manifest.json',
   './icons/icon.svg',
 ];
